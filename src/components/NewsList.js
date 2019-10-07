@@ -25,22 +25,26 @@ const sampleArticle = {
 }
 
 const NewsList = ({ category }) => {
-    const [loading, response, error] = usePromise(()=> {
-        const query = category === "all" ? "" : `&category=${category}`
-        return axios.get('https://newsapi.org/v2/top-headlines?country=kr'+query+"&apiKey=56a9be0c23f94899b8e94b892e9081df",)
-    }, [category])
-  
+  const [loading, response, error] = usePromise(() => {
+    const query = category === 'all' ? '' : `&category=${category}`
+    return axios.get(
+      'https://newsapi.org/v2/top-headlines?country=kr' +
+        query +
+        '&apiKey=56a9be0c23f94899b8e94b892e9081df',
+    )
+  }, [category])
+
   if (loading) {
     return <NewsListBlock>대기중...</NewsListBlock>
   }
   if (!response) {
     return null
   }
-  if(error) {
-      return <NewsListBlock>에러 발생!</NewsListBlock>
+  if (error) {
+    return <NewsListBlock>에러 발생!</NewsListBlock>
   }
 
-  const {articles} = response.data
+  const { articles } = response.data
   return (
     <NewsListBlock>
       {articles.map(article => (
